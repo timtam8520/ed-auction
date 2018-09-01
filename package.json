@@ -1,0 +1,27 @@
+{
+  "name": "ed-auction-api",
+  "version": "1.0.0",
+  "description": "Auction site API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timtam8520/ed-auction-api.git"
+  },
+  "author": "timtam8520",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timtam8520/ed-auction-api/issues"
+  },
+  "homepage": "https://github.com/timtam8520/ed-auction-api#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "eslint": "^5.5.0"
+  }
+}

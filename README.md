@@ -1,2 +1,2 @@
-# ed-auction
-Auction site
+# ed-auction-api
+Auction site API
