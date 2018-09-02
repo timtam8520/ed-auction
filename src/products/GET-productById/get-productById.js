@@ -1,9 +1,9 @@
 const { products } = require('../../../resources/data');
 
-function get() {
-  return products;
+function getID(id) {
+  return products.get(Number(id));
 }
 
 module.exports = {
-  get
+  getID
 };
