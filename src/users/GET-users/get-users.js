@@ -1,7 +1,7 @@
 const { users } = require('../../../resources/data');
 
 function get() {
-  return users;
+  return Array.from(users.values());
 }
 
 module.exports = {
