@@ -4,7 +4,10 @@
   "description": "Auction site API",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon",
+    "serve": "npm run build && node dist/index.js",
+    "build": "node ./node_modules/typescript/bin/tsc",
+    "start-ts": "ts-node --project tsconfig.json ./src/index.ts",
     "test": "mocha ./src/**/*test.js"
   },
   "repository": {
@@ -18,14 +21,21 @@
   },
   "homepage": "https://github.com/timtam8520/ed-auction-api#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "express": "^4.16.3",
-    "nodemon": "^1.18.4"
+    "jsonwebtoken": "^8.3.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.4",
+    "@types/express": "^4.16.0",
+    "@types/jsonwebtoken": "^7.2.8",
     "chai": "^4.1.2",
-    "eslint": "^5.5.0",
     "mocha": "^5.2.0",
-    "sinon": "^6.1.5"
+    "nodemon": "^1.18.4",
+    "sinon": "^6.1.5",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
   }
 }
