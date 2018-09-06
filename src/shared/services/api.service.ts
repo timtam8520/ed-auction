@@ -1,7 +1,13 @@
-export function success(payload: any): [number, any] {
-  return [200, payload];
+import { Response } from 'express';
+
+export function ok(res: Response, payload: any) {
+  res.status(200).send(payload);
 }
 
-export function forbidden(): [number, string] {
-  return [403, 'Forbidden'];
+export function forbidden(res: Response) {
+  res.status(403).send('Forbidden');
+}
+
+export function serverError(res: Response) {
+  res.status(500).send('Internal Server Error');
 }

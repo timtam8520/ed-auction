@@ -1,25 +1,59 @@
-// const jwt = require('jsonwebtoken');
-import * as jwt from 'jsonwebtoken';
+import fs from 'fs';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import * as api from './api.service';
-import * as userService from './user.service';
+import { validateUserCredentials } from './user.service';
 import { User } from '../models/user';
 
-const JWT_SECRET = '#$%2i\'m a secret for jwt0012';
+import { Request, Response, NextFunction } from 'express';
 
-export function login(body: any): [number, any] {
+dotenv.config({ path: 'environments/.env' });
+const CERT_DIR = process.env.CERT_DIR;
+
+const privateCert = fs.readFileSync(`${CERT_DIR}\\id_rsa_ed-auction-api`);
+const publicCert = fs.readFileSync(`${CERT_DIR}\\id_rsa_ed-auction-api.pub`);
+
+export const AUTHDATA = 'authData';
+
+export function login(req: Request, res: Response) {
+  const body = req.body;
+
   const email = body.username;
   const password = body.password;
 
   if (!email || !password) {
-    return api.forbidden();
+    return api.forbidden(res);
   }
-  const user = userService.validateUserCredentials(email, password);
+  const user = validateUserCredentials(email, password);
   if (!user) {
-    return api.forbidden();
+    return api.forbidden(res);
   }
 
-  const token = jwt.sign(getUserDetails(user), JWT_SECRET);
-  return api.success({ token });
+  const token = jwt.sign(getUserDetails(user), privateCert);
+  return api.ok(res, { token });
+}
+
+export function verify(req: Request, res: Response, next: NextFunction) {
+  try {
+    const authorization = req.headers['authorization'];
+    if (authorization == null) {
+      return api.forbidden(res);
+    } else {
+      // token: Bearer xxxx
+      const bearerToken = authorization.split(' ');
+      const token = bearerToken[1];
+      let authData = null;
+      try {
+        authData = jwt.verify(token, publicCert);
+        (<any>req)[AUTHDATA] = authData;
+        next();
+      } catch (err) {
+        return api.forbidden(res);
+      }
+    }
+  } catch (err) {
+    return api.serverError(res);
+  }
 }
 
 function getUserDetails(user: User) {
