@@ -23,11 +23,13 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.4",
+    "@types/dotenv": "^4.0.3",
     "@types/express": "^4.16.0",
     "@types/jsonwebtoken": "^7.2.8",
     "chai": "^4.1.2",
@@ -36,6 +38,7 @@
     "sinon": "^6.1.5",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
+    "tslint-config-airbnb": "^5.11.0",
     "typescript": "^3.0.3"
   }
 }
