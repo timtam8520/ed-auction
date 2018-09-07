@@ -4,7 +4,7 @@ import express from 'express';
 import bodyparser from 'body-parser';
 
 // import * as product from './products/GET-productById/get-productById';
-// import * as products from './products/GET-products/get-products';
+import { getProducts } from './products/GET-products/get-products';
 // import * as users from './users/GET-users/get-users';
 import { login, verify } from './shared/services/jwt.service';
 
@@ -21,7 +21,7 @@ app.post('/users/authenticate', (req, res) => {
 });
 
 // PRODUCTS
-// app.get('/products', (req, res) => res.json(products.get()));
+app.get('/products', verify, (req, res) => getProducts(res));
 // app.get('/products/:id', (req, res) => res.json(product.getID(req.params.id)));
 
 

@@ -10,8 +10,8 @@ import { Request, Response, NextFunction } from 'express';
 dotenv.config({ path: 'environments/.env' });
 const CERT_DIR = process.env.CERT_DIR;
 
-const privateCert = fs.readFileSync(`${CERT_DIR}\\id_rsa_ed-auction-api`);
-const publicCert = fs.readFileSync(`${CERT_DIR}\\id_rsa_ed-auction-api.pub`);
+const privateCert = fs.readFileSync(`${CERT_DIR}\\id_rsa_ed-auction-api`, 'utf-8');
+const publicCert = fs.readFileSync(`${CERT_DIR}\\id_rsa_ed-auction-api.pub`, 'utf-8');
 
 export const AUTHDATA = 'authData';
 
@@ -26,10 +26,10 @@ export function login(req: Request, res: Response) {
   }
   const user = validateUserCredentials(email, password);
   if (!user) {
-    return api.forbidden(res);
+    return api.unauthorised(res, 'Incorrect username or password');
   }
 
-  const token = jwt.sign(getUserDetails(user), privateCert);
+  const token = jwt.sign(getUserDetails(user), privateCert, { algorithm: 'RS256' });
   return api.ok(res, { token });
 }
 
@@ -44,10 +44,11 @@ export function verify(req: Request, res: Response, next: NextFunction) {
       const token = bearerToken[1];
       let authData = null;
       try {
-        authData = jwt.verify(token, publicCert);
+        authData = jwt.verify(token, publicCert, { algorithms: ['RS256'] });
         (<any>req)[AUTHDATA] = authData;
         next();
       } catch (err) {
+        console.log(err);
         return api.forbidden(res);
       }
     }
