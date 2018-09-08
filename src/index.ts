@@ -31,8 +31,7 @@ app.get('/products', verify, (req, res) => getProducts(res));
 //   res.json(users.get());
 // });
 
-// PRODUCT BIDS
-// app.get('/products/:productId/bids', (req, res) => )
+// BIDS
 
 // eslint-disable-next-line no-console
 app.listen(PORT, () => console.log(`Auction API is running at localhost: ${PORT}`));

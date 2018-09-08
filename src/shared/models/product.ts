@@ -4,4 +4,5 @@ export class Product {
   productName: string;
   productPrice: number;
   productAuctionCloseTime: number;
+  productBids: number;
 }
