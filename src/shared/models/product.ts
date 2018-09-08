@@ -3,5 +3,5 @@ export class Product {
   productImage: string;
   productName: string;
   productPrice: number;
-  productTimeLeft: number;    // in milliseconds
+  productAuctionCloseTime: number;
 }

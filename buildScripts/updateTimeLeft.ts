@@ -14,7 +14,7 @@ const currentTime = Date.now();
 const products: Product[] = JSON.parse(fs.readFileSync(productsLocation, 'utf-8'));
 
 for (let i = 0; i < products.length; ++i) {
-  products[i] = Object.assign({}, products[i], { productTimeLeft: currentTime + timeLeft[i] });
+  products[i] = Object.assign({}, products[i], { productAuctionCloseTime: currentTime + timeLeft[i] });
 }
 
 fs.writeFileSync(productsLocation, JSON.stringify(products));
