@@ -13,7 +13,7 @@ const CERT_DIR = process.env.CERT_DIR;
 const privateCert = fs.readFileSync(`${CERT_DIR}\\id_rsa_ed-auction-api`, 'utf-8');
 const publicCert = fs.readFileSync(`${CERT_DIR}\\id_rsa_ed-auction-api.pub`, 'utf-8');
 
-export const AUTHDATA = 'authData';
+const AUTHDATA = 'authData';
 
 export function login(req: Request, res: Response) {
   const body = req.body;
@@ -54,6 +54,16 @@ export function verify(req: Request, res: Response, next: NextFunction) {
     }
   } catch (err) {
     return api.serverError(res);
+  }
+}
+
+export function getUserId(req: Request) {
+  try {
+    const authData = (<any>req)[AUTHDATA];
+    const userId = authData.userId;
+    return userId;
+  } catch (err) {
+    throw { msg: 'Could not get user id from request' };
   }
 }
 
