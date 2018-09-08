@@ -1,20 +1,27 @@
 import { getProducts, updateProduct } from '../resources/data';
 
-export function validProductId(productId: number) {
-  const products = getProducts();
+export function retrieveProducts() {
+  return getProducts();
+}
+
+export function getProductById(productId: number) {
+  const products = retrieveProducts();
   const product = products.find(p => p.productId === productId);
+  return product;
+}
+
+export function validProductId(productId: number) {
+  const product = getProductById(productId);
   return product ? true : false;
 }
 
 export function getProductLatestUpdateTime(productId: number) {
-  const products = getProducts();
-  const product = products.find(p => p.productId === productId);
+  const product = getProductById(productId);
   return product.latestUpdateTime;
 }
 
 export function getLatestProductPrice(productId: number) {
-  const products = getProducts();
-  const product = products.find(p => p.productId === productId);
+  const product = getProductById(productId);
   if (product.latestProductBidPrice !== 0) {
     return product.latestProductBidPrice;
   } else {
@@ -23,8 +30,7 @@ export function getLatestProductPrice(productId: number) {
 }
 
 export function addBidToProduct(productId: number, bidPrice: number) {
-  const products = getProducts();
-  let product = products.find(p => p.productId === productId);
+  let product = getProductById(productId);
   product = Object.assign({}, product, {
     latestUpdateTime: Date.now(),
     productBids: product.productBids + 1,

@@ -8,6 +8,7 @@ import { listProducts } from './products/GET-products/get-products';
 // import * as users from './users/GET-users/get-users';
 import { login, verify } from './shared/services/jwt.service';
 import { bidOnProduct } from './bids/POST-bidByProductId/post-bidByProductId';
+import { getProductWithId } from './products/GET-productById/get-productById';
 
 const PORT = 3000;
 const app = express();
@@ -23,6 +24,7 @@ app.post('/users/authenticate', (req, res) => {
 
 // PRODUCTS
 app.get('/products', verify, (req, res) => listProducts(res));
+app.get('/products/:productId', verify, (req, res) => getProductWithId(req, res));
 // Product BIDS
 app.post('/products/:productId/bid', verify, (req, res) => bidOnProduct(req, res));
 // app.get('/products/:id', (req, res) => res.json(product.getID(req.params.id)));

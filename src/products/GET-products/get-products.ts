@@ -1,8 +1,8 @@
 import { Response } from 'express';
 import { ok } from '../../shared/services/api.service';
-import { getProducts } from '../../shared/resources/data';
+import { retrieveProducts } from '../../shared/services/product.service';
 
 export function listProducts(res: Response) {
-  const products = getProducts();
+  const products = retrieveProducts();
   return ok(res, products);
 }
