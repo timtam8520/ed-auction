@@ -3,32 +3,40 @@
     "productId": 1,
     "productImage": "https://www.kmart.com.au/wcsstore/Kmart/images/ncatalog/tf/6/42570936-1-tf.jpg",
     "productName": "Kettle",
-    "productPrice": 10.5,
+    "initialProductPrice": 10.5,
+    "latestProductBidPrice": 0,
     "productAuctionCloseTime": 0,
-    "productBids": 0
+    "productBids": 0,
+    "latestUpdateTime": 0
   },
   {
     "productId": 2,
     "productImage": "https://www.tennisdirect.com.au/assets/full/17538-G2.jpg",
     "productName": "Tennis Racquet",
-    "productPrice": 100,
+    "initialProductPrice": 100,
+    "latestProductBidPrice": 0,
     "productAuctionCloseTime": 0,
-    "productBids": 0
+    "productBids": 0,
+    "latestUpdateTime": 0
   },
   {
     "productId": 3,
     "productImage": "https://azcd.harveynorman.com.au/media/catalog/product/cache/21/image/992x558/9df78eab33525d08d6e5fb8d27136e95/h/g/hg90_edit_4.png",
     "productName": "Monitor",
-    "productPrice": 200,
+    "initialProductPrice": 200,
+    "latestProductBidPrice": 0,
     "productAuctionCloseTime": 0,
-    "productBids": 0
+    "productBids": 0,
+    "latestUpdateTime": 0
   },
   {
     "productId": 4,
     "productImage": "https://i.ebayimg.com/images/g/yA8AAOSw2gxYtsx7/s-l300.jpg",
     "productName": "The Chronicles of Narnia Book Set",
-    "productPrice": 20,
+    "initialProductPrice": 20,
+    "latestProductBidPrice": 0,
     "productAuctionCloseTime": 0,
-    "productBids": 0
+    "productBids": 0,
+    "latestUpdateTime": 0
   }
 ]

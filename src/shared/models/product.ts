@@ -2,7 +2,9 @@ export class Product {
   productId: number;
   productImage: string;
   productName: string;
-  productPrice: number;
+  initialProductPrice: number;
+  latestProductBidPrice: number;
   productAuctionCloseTime: number;
   productBids: number;
+  latestUpdateTime: number;
 }
