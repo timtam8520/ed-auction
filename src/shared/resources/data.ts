@@ -4,9 +4,9 @@ import { Product } from '../models/product';
 import { User } from '../models/user';
 import { Bid } from '../models/bids';
 
-export const products: Product[] = JSON.parse(fs.readFileSync('./src/shared/resources/productData.json', 'utf-8'));
+const products: Product[] = JSON.parse(fs.readFileSync('./src/shared/resources/productData.json', 'utf-8'));
 
-export const users: User[] = [
+const users: User[] = [
   {
     firstName: 'Bob',
     lastName: 'Proctor',
@@ -38,5 +38,27 @@ export const users: User[] = [
 ];
 
 
-export let bids: Bid[] = [
+let bids: Bid[] = [
 ];
+
+export function getProducts(): Product[] {
+  return products;
+}
+
+export function getUsers(): User[] {
+  return users;
+}
+
+export function getBids(): Bid[] {
+  return bids;
+}
+
+export function updateProduct(productId: number, product: Product) {
+  const index = products.indexOf(products.find(p => p.productId === productId));
+  products[index] = Object.assign({}, product);
+}
+
+export function addBidToData(bid: Bid) {
+  console.log(bids);
+  bids.push(bid);
+}
