@@ -59,6 +59,5 @@ export function updateProduct(productId: number, product: Product) {
 }
 
 export function addBidToData(bid: Bid) {
-  console.log(bids);
   bids.push(bid);
 }
