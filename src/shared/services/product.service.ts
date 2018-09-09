@@ -10,9 +10,9 @@ export function getProductById(productId: number) {
   return product;
 }
 
-export function validProductId(productId: number) {
+export function invalidProductId(productId: number) {
   const product = getProductById(productId);
-  return product ? true : false;
+  return product ? false : true;
 }
 
 export function getProductLatestUpdateTime(productId: number) {

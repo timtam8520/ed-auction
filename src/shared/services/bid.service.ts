@@ -1,15 +1,24 @@
-import { getLatestProductPrice } from "./product.service";
+import { getLatestProductPrice, getProductById } from "./product.service";
 import { Bid } from "../models/bids";
 import { addBidToData } from "../resources/data";
 
 const MIN_BID_DIFF = 0.01;
 
-export async function validBid(productId: number, bidPrice: number) {
-  const latestPrice = await getLatestProductPrice(productId);
+export function invalidBid(productId: number, bidPrice: number) {
+  const latestPrice = getLatestProductPrice(productId);
   if (bidPrice < latestPrice + MIN_BID_DIFF) {
-    return false;
+    return true;
   }
-  return true;
+  return false;
+}
+
+export function auctionClosed(productId: number) {
+  const { productAuctionCloseTime } = getProductById(productId);
+  const currentTime = Date.now();
+  if (currentTime > productAuctionCloseTime) {
+    return true;
+  }
+  return false;
 }
 
 export function addBid(bid: Bid) {
