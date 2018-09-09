@@ -12,7 +12,7 @@ export function getProductWithId(req: Request, res: Response) {
       return api.ok(res, product);
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return api.serverError(res);
   }
 }
