@@ -5,7 +5,7 @@ export function ok(res: Response, payload = {}) {
 }
 
 export function badRequest(res: Response, msg = 'Bad Request') {
-  res.status(404).send(msg);
+  res.status(400).send(msg);
 }
 
 export function unauthorised(res: Response, msg = 'Unauthorised') {
@@ -20,7 +20,7 @@ export function notFound(res: Response, msg = 'Not Found') {
   res.status(404).send(msg);
 }
 
-export function conflict(res: Response, msg = 'Conflit') {
+export function conflict(res: Response, msg = 'Conflict') {
   res.status(409).send(msg);
 }
 

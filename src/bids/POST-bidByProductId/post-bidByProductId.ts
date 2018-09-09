@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { invalidProductId, getProductLatestUpdateTime, addBidToProduct } from "../../shared/services/product.service";
 import * as api from "../../shared/services/api.service";
-import { invalidBid, addBid, auctionClosed } from "../../shared/services/bid.service";
+import { invalidProductId, getProductLatestUpdateTime, addBidToProduct } from "../../shared/services/product.service";
+import { invalidBid, auctionClosed, addBid } from "../../shared/services/bid.service";
 import { getUserId } from "../../shared/services/jwt.service";
 import { Bid } from "../../shared/models/bids";
 
@@ -14,8 +14,8 @@ export async function bidOnProduct(req: Request, res: Response) {
       return api.notFound(res, 'Product not found');
     } else if (invalidBid(productId, bidPrice)) {
       return api.badRequest(res, 'Ensure that bid is at least $0.01 greater than current bid');
-    } else if (auctionClosed) {
-      return api.badRequest(res, 'Auction has ended, no more bids can be accepted')
+    } else if (auctionClosed(productId)) {
+      return api.badRequest(res, 'Auction has ended, no more bids can be accepted');
     }
     const userId = getUserId(req);
     const bid: Bid = {
@@ -33,7 +33,7 @@ export async function bidOnProduct(req: Request, res: Response) {
     }
     return api.ok(res)
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return api.serverError(res);
   }
 }
