@@ -53,7 +53,7 @@ export function verify(req: Request, res: Response, next: NextFunction) {
       }
     }
   } catch (err) {
-    return api.serverError(res);
+    return api.internalServerError(res);
   }
 }
 

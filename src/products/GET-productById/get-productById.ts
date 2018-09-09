@@ -13,6 +13,6 @@ export function getProductWithId(req: Request, res: Response) {
     }
   } catch (err) {
     console.error(err);
-    return api.serverError(res);
+    return api.internalServerError(res);
   }
 }

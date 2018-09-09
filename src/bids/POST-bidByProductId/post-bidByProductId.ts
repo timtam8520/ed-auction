@@ -34,6 +34,6 @@ export async function bidOnProduct(req: Request, res: Response) {
     return api.ok(res)
   } catch (err) {
     console.error(err);
-    return api.serverError(res);
+    return api.internalServerError(res);
   }
 }

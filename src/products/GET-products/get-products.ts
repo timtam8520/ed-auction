@@ -8,6 +8,6 @@ export function listProducts(res: Response) {
     return api.ok(res, products);
   } catch (err) {
     console.error(err);
-    return api.serverError(res);
+    return api.internalServerError(res);
   }
 }

@@ -24,6 +24,6 @@ export function conflict(res: Response, msg = 'Conflict') {
   res.status(409).send(msg);
 }
 
-export function serverError(res: Response) {
+export function internalServerError(res: Response) {
   res.status(500).send('Internal Server Error');
 }
