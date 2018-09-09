@@ -6,7 +6,7 @@ const MIN_BID_DIFF = 0.01;
 
 export function invalidBid(productId: number, bidPrice: number) {
   const latestPrice = getLatestProductPrice(productId);
-  if (bidPrice < latestPrice + MIN_BID_DIFF) {
+  if (isNaN(bidPrice) || bidPrice < latestPrice + MIN_BID_DIFF) {
     return true;
   }
   return false;
