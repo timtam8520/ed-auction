@@ -1,16 +1,19 @@
-import sinon from 'sinon';
+import sinon, { SinonSandbox, SinonStub } from 'sinon';
 import { expect } from 'chai';
 import * as handler from './get-products';
 import { Product } from '../../shared/models/product';
 import * as productService from '../../shared/services/product.service';
 import { MockResponse } from '../../../test/utils.mock.response';
 
-describe.only('get-products', () => {
-  let sandbox: any;
+describe('get-products', () => {
+  let sandbox: SinonSandbox;
 
-  let retrieveProductsStub: any;
-
+  let retrieveProductsStub: SinonStub;
   let retrieveProductsMockData: Product[];
+
+  let consoleErrorStub: SinonStub;
+
+  let res: any;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -39,18 +42,30 @@ describe.only('get-products', () => {
     ];
 
     retrieveProductsStub = sandbox.stub(productService, 'retrieveProducts').returns(retrieveProductsMockData);
-    retrieveProductsStub
+
+    consoleErrorStub = sandbox.stub(console, 'error');
+
+    res = new MockResponse();
   });
 
   afterEach(() => {
     sandbox.restore();
   });
 
-  it('to return the list of products in a 200 ok response', () => {
-    const res = (<any>new MockResponse());
+  it('should handle an unexpected failure', () => {
+    const err = { message: 'unexpected failure while retrieving products' };
+    retrieveProductsStub.throws(err);
+    handler.listProducts(res);
+    expect(retrieveProductsStub.callCount).to.equal(1);
+    expect(consoleErrorStub.getCall(0).args).to.deep.equal([err]);
+    expect(res.httpStatus).to.equal(500);
+    expect(res.payload).to.equal('Internal Server Error');
+  });
+
+  it('should return the list of products in a 200 ok response', () => {
     handler.listProducts(res);
     expect(retrieveProductsStub.callCount).to.equal(1);
     expect(res.httpStatus).to.equal(200);
-    expect(res.payload).to.equal(retrieveProductsMockData);
+    expect(res.payload).to.deep.equal(retrieveProductsMockData);
   });
 });
