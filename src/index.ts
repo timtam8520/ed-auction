@@ -6,6 +6,7 @@ import { listProducts } from './products/GET-products/get-products';
 import { login, verify } from './shared/services/jwt.service';
 import { bidOnProduct } from './bids/POST-bidByProductId/post-bidByProductId';
 import { getProductWithId } from './products/GET-productById/get-productById';
+import { bidStatus } from './bids/GET-bidStatusByProductId/get-bidStatusByProductId';
 
 const PORT = 3000;
 const app = express();
@@ -22,5 +23,6 @@ app.get('/products', verify, (req, res) => listProducts(res));
 app.get('/products/:productId', verify, (req, res) => getProductWithId(req, res));
 // Product BIDS
 app.post('/products/:productId/bid', verify, (req, res) => bidOnProduct(req, res));
+app.get('/products/:productId/bid/status', verify, (req, res) => bidStatus(req, res));
 
 app.listen(PORT, () => console.log(`Auction API is running at localhost: ${PORT}`));
