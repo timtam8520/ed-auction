@@ -6,9 +6,9 @@
   "scripts": {
     "start": "nodemon",
     "prestart": "npm run updateProductExpiry",
-    "serve": "npm run build && node dist/index.js",
+    "serve": "npm run build && node dist/src/index.js",
     "build": "node ./node_modules/typescript/bin/tsc",
-    "prebuild": "npm run updateProductExpiry && npm run cleanDist",
+    "prebuild": "npm test && npm run updateProductExpiry && npm run cleanDist",
     "updateProductExpiry": "ts-node ./buildScripts/updateTimeLeft.ts",
     "cleanDist": "rimraf dist && mkdir dist",
     "prestart-ts": "npm run updateProductExpiry",
