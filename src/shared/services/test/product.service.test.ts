@@ -1,8 +1,8 @@
 import sinon, { SinonSandbox, SinonStub } from 'sinon';
 import { expect } from 'chai';
+import { Product } from '../../models/product';
 import * as data from '../../resources/data';
 import * as productService from '../product.service';
-import { Product } from '../../models/product';
 
 describe('product.service', () => {
   let sandbox: SinonSandbox;
