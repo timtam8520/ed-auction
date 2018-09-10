@@ -88,7 +88,7 @@ describe('jwt.service', () => {
   });
 
   it('should read private and public cert from the correct directory', () => {
-    const cert_dir = 'C:\\Users\\timtam-Lenovo\\.ssh';
+    const cert_dir = 'src\\shared\\resources';
     const private_cert_loc = cert_dir + '\\id_rsa_ed-auction-api';
     const public_cert_loc = cert_dir + '\\id_rsa_ed-auction-api.pub';
     jwtService.login(loginReq, res);
