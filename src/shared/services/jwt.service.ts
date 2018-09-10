@@ -16,21 +16,32 @@ const publicCert = fs.readFileSync(`${CERT_DIR}\\id_rsa_ed-auction-api.pub`, 'ut
 const AUTHDATA = 'authData';
 
 export function login(req: Request, res: Response) {
-  const body = req.body;
+  try {
+    const body = req.body;
 
-  const email = body.username;
-  const password = body.password;
+    const email = body.username;
+    const password = body.password;
 
-  if (!email || !password) {
-    return api.forbidden(res);
+    if (!email || !password) {
+      return api.forbidden(res);
+    }
+    const user = validateUserCredentials(email, password);
+    if (!user) {
+      return api.unauthorised(res, 'Incorrect username or password');
+    }
+
+    const token = jwt.sign(getUserDetails(user), privateCert, { algorithm: 'RS256' });
+    return api.ok(res, { token });
+  } catch (err) {
+    console.error(err);
+    return api.internalServerError(res);
   }
-  const user = validateUserCredentials(email, password);
-  if (!user) {
-    return api.unauthorised(res, 'Incorrect username or password');
-  }
+}
 
-  const token = jwt.sign(getUserDetails(user), privateCert, { algorithm: 'RS256' });
-  return api.ok(res, { token });
+function getUserDetails(user: User) {
+  const userDetails = Object.assign({}, user);
+  delete userDetails.password;
+  return userDetails;
 }
 
 export function verify(req: Request, res: Response, next: NextFunction) {
@@ -48,11 +59,12 @@ export function verify(req: Request, res: Response, next: NextFunction) {
         (<any>req)[AUTHDATA] = authData;
         next();
       } catch (err) {
-        console.log(err);
+        console.error(err);
         return api.forbidden(res);
       }
     }
   } catch (err) {
+    console.error(err);
     return api.internalServerError(res);
   }
 }
@@ -63,12 +75,7 @@ export function getUserId(req: Request) {
     const userId = authData.userId;
     return userId;
   } catch (err) {
-    throw { msg: 'Could not get user id from request' };
+    console.error('Could not get user id from request');
+    throw err;
   }
-}
-
-function getUserDetails(user: User) {
-  const userDetails = Object.assign({}, user);
-  delete userDetails.password;
-  return userDetails;
 }
