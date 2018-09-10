@@ -67,7 +67,7 @@ describe('post-bidByProduct', () => {
   it('should return a 404 for a bid on a product that does not exist', () => {
     invalidProductIdStub.returns(true);
     handler.bidOnProduct(req, res);
-    expect(getProductLatestUpdateTimeStub.callCount).to.equal(1);
+    expect(getProductLatestUpdateTimeStub.callCount).to.equal(0);
     expect(invalidProductIdStub.callCount).to.equal(1);
     expect(res.httpStatus).to.equal(404);
     expect(res.payload).to.equal('Product not found');

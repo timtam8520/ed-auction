@@ -9,10 +9,11 @@ export async function bidOnProduct(req: Request, res: Response) {
   try {
     const productId = Number(req.params.productId);
     const bidPrice = Number(req.body.bidPrice);
-    const latestUpdateTime = getProductLatestUpdateTime(productId);
     if (invalidProductId(productId)) {
       return api.notFound(res, 'Product not found');
-    } else if (invalidBid(productId, bidPrice)) {
+    }
+    const latestUpdateTime = getProductLatestUpdateTime(productId);
+    if (invalidBid(productId, bidPrice)) {
       return api.badRequest(res, 'Ensure that bid is at least $0.01 greater than current bid');
     } else if (auctionClosed(productId)) {
       return api.badRequest(res, 'Auction has ended, no more bids can be accepted');
