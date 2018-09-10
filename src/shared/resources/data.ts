@@ -1,10 +1,10 @@
-import fs from 'fs';
+import { readFileSync } from 'fs';
 
 import { Product } from '../models/product';
 import { User } from '../models/user';
 import { Bid } from '../models/bids';
 
-const products: Product[] = JSON.parse(fs.readFileSync('./src/shared/resources/productData.json', 'utf-8'));
+const products: Product[] = JSON.parse(readFileSync('./src/shared/resources/productData.json', 'utf-8'));
 
 const users: User[] = [
   {
