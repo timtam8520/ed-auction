@@ -12,6 +12,8 @@ describe('bid.service', () => {
   let getProductByIdStub: SinonStub;
 
   let addBidToDataStub: SinonStub;
+  let getBidsStub: SinonStub;
+  let getBidsMockData: Bid[];
 
   let dateNowStub: SinonStub;
 
@@ -22,6 +24,27 @@ describe('bid.service', () => {
     getProductByIdStub = sandbox.stub(productService, 'getProductById').returns({ productAuctionCloseTime: 1 });
 
     addBidToDataStub = sandbox.stub(data, 'addBidToData');
+    getBidsMockData = [
+      {
+        productId: 1,
+        userId: 1,
+        price: 10,
+        timestamp: 1
+      },
+      {
+        productId: 1,
+        userId: 2,
+        price: 11,
+        timestamp: 2
+      },
+      {
+        productId: 1,
+        userId: 1,
+        price: 11.5,
+        timestamp: 3
+      }
+    ];
+    getBidsStub = sandbox.stub(data, 'getBids').returns(getBidsMockData);
 
     dateNowStub = sandbox.stub(Date, 'now').returns(0);
   });
@@ -70,5 +93,98 @@ describe('bid.service', () => {
     };
     bidService.addBid(bid);
     expect(addBidToDataStub.getCall(0).args).to.deep.equal([bid]);
+  });
+
+  it('should be able to handle getting product bids when there are no bids', () => {
+    getBidsStub.returns([]);
+    const highestBidder = bidService.leadingAuction(1, 1);
+    expect(getBidsStub.callCount).to.equal(1);
+    expect(highestBidder).to.equal(null);
+  });
+
+  it('should be able to handle getting product bids when there are no bids for that product', () => {
+    const bids: Bid[] = [
+      {
+        productId: 2,
+        userId: 1,
+        price: 10,
+        timestamp: 9
+      },
+      {
+        productId: 2,
+        userId: 2,
+        price: 11,
+        timestamp: 20
+      }
+    ];
+    getBidsStub.returns(bids);
+    const highestBidder = bidService.leadingAuction(1, 1);
+    expect(getBidsStub.callCount).to.equal(1);
+    expect(highestBidder).to.equal(null);
+  });
+
+  it('should be able to report that you are not the highest bidder, when you\'ve made no bids', () => {
+    const leading = bidService.leadingAuction(1, 4);
+    expect(getBidsStub.callCount).to.equal(1);
+    expect(leading).to.be.false;
+  });
+
+  it('should be able to report that you are not the highest bidder, when you\'ve been outbid', () => {
+    const leading = bidService.leadingAuction(1, 2);
+    expect(getBidsStub.callCount).to.equal(1);
+    expect(leading).to.be.false;
+  });
+
+  it('should be able to get the report the highest bidder', () => {
+    const leading = bidService.leadingAuction(1, 1);
+    expect(getBidsStub.callCount).to.equal(1);
+    expect(leading).to.be.true;
+  });
+
+  it('should be able to handle checking if a user is part of the auction when there are no bids', () => {
+    getBidsStub.returns([]);
+    const inAuction = bidService.partOfAuction(1, 1);
+    expect(getBidsStub.callCount).to.equal(1);
+    expect(inAuction).to.be.null;
+  });
+
+  it('should be able to handle checking if a user is part of the auction when there are no bids', () => {
+    getBidsStub.returns([]);
+    const inAuction = bidService.partOfAuction(1, 1);
+    expect(getBidsStub.callCount).to.equal(1);
+    expect(inAuction).to.be.null;
+  });
+
+  it('should be able to report whether a user is part of an auction when there are no bids for that product', () => {
+    const bids: Bid[] = [
+      {
+        productId: 2,
+        userId: 1,
+        price: 10,
+        timestamp: 9
+      },
+      {
+        productId: 2,
+        userId: 2,
+        price: 11,
+        timestamp: 20
+      }
+    ];
+    getBidsStub.returns(bids);
+    const inAuction = bidService.partOfAuction(1, 1);
+    expect(getBidsStub.callCount).to.equal(1);
+    expect(inAuction).to.equal(null);
+  })
+
+  it('should be able to report that a user is not part of an auction when they\'ve made no bids', () => {
+    const inAuction = bidService.partOfAuction(1, 3);
+    expect(getBidsStub.callCount).to.equal(1);
+    expect(inAuction).to.be.false;
+  });
+
+  it('should be able to report that a user is part of an auction, when they have made bids', () => {
+    const inAuction = bidService.partOfAuction(1, 2);
+    expect(getBidsStub.callCount).to.equal(1);
+    expect(inAuction).to.be.true;
   });
 });
