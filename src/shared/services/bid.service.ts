@@ -37,7 +37,7 @@ function getProductBids(productId: number) {
 export function leadingAuction(productId: number, userId: number) {
   const productBids = getProductBids(productId);
   if (productBids && productBids.length > 0) {
-    const leadingUserId = productBids.sort(b => b.price)[0].userId;
+    const leadingUserId = productBids.sort((a, b) => b.price - a.price)[0].userId;
     return leadingUserId === userId ? true : false;
   }
   return null;

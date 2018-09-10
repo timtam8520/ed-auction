@@ -28,19 +28,19 @@ describe('bid.service', () => {
       {
         productId: 1,
         userId: 1,
-        price: 10,
+        price: 111,
         timestamp: 1
       },
       {
         productId: 1,
         userId: 2,
-        price: 11,
+        price: 111.5,
         timestamp: 2
       },
       {
         productId: 1,
         userId: 1,
-        price: 11.5,
+        price: 1010.5,
         timestamp: 3
       }
     ];
