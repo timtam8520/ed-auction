@@ -1,13 +1,19 @@
 import { getProducts, updateProduct } from '../resources/data';
 
 export function retrieveProducts() {
-  return getProducts();
+  try {
+    return getProducts();
+  } catch (err) {
+    return null;
+  }
 }
 
 export function getProductById(productId: number) {
   const products = retrieveProducts();
-  const product = products.find(p => p.productId === productId);
-  return product;
+  if (products) {
+    const product = products.find(p => p.productId === productId);
+    return product;
+  }
 }
 
 export function invalidProductId(productId: number) {
@@ -17,24 +23,30 @@ export function invalidProductId(productId: number) {
 
 export function getProductLatestUpdateTime(productId: number) {
   const product = getProductById(productId);
-  return product.latestUpdateTime;
+  return product ? product.latestUpdateTime : null;
 }
 
 export function getLatestProductPrice(productId: number) {
   const product = getProductById(productId);
-  if (product.latestProductBidPrice !== 0) {
-    return product.latestProductBidPrice;
+  if (product) {
+    if (product.latestProductBidPrice > 0) {
+      return product.latestProductBidPrice;
+    } else {
+      return product.initialProductPrice;
+    }
   } else {
-    return product.initialProductPrice;
+    return null;
   }
 }
 
 export function addBidToProduct(productId: number, bidPrice: number) {
   let product = getProductById(productId);
-  product = Object.assign({}, product, {
-    latestUpdateTime: Date.now(),
-    productBids: product.productBids + 1,
-    latestProductBidPrice: bidPrice
-  });
-  updateProduct(productId, product);
+  if (product) {
+    product = Object.assign({}, product, {
+      latestUpdateTime: Date.now(),
+      productBids: product.productBids + 1,
+      latestProductBidPrice: bidPrice
+    });
+    updateProduct(productId, product);
+  }
 }
